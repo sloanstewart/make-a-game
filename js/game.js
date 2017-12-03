@@ -261,7 +261,7 @@
 
 		gameState.playEntering = true;
 		gameState.faceXStart = (gameState.faceX = -gameState.faceSize);
-		gameState.faceY = altitudeToViewport(gameState.altitude);
+		gameState.faceY = altitudeToViewport(gameState.altitude) + gameState.faceSize;
 
 		gameState.RAF = requestAnimationFrame(runPlayEntering);
 	}
@@ -301,6 +301,13 @@
 			if (gameState.playEnteringTickCount <= gameState.playEnteringTickThreshold) {
 
 				// TODO: enter the scene
+				var faceLocationPercent = gameState.playEnteringTickCount / gameState.playEnteringTickThreshold;
+				
+				gameState.faceX = gameState.faceXStart + ((gameState.faceXThreshold - gameState.faceXStart) * faceLocationPercent);
+				
+				gameState.faceAngle = gameState.faceAngle - gameState.faceRotatingSpeed;
+				
+				drawIntro(1);
 
 				gameState.RAF = requestAnimationFrame(runPlayEntering);
 			}
